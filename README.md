@@ -1,5 +1,8 @@
 # Products with CRUD operation using Laravel 8
  
-ways to install
-    .env check database confihuration
-    then php artisan migrate
+ Ways to install
+- .env check database configuration
+- php artisan migrate
+- npm install
+- npm run dev
+- php artisan serve
