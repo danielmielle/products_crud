@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Auth::routes();
+Auth::routes();
 //
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -32,4 +32,6 @@ Route::group(['middleware' => ['auth']], function (){
     Route::get('/edit/{id}',[ProductsController::class,'edit'])->name('products.edit');
     Route::patch('/update/{id}',[ProductsController::class,'update'])->name('products.update');
     Route::delete('/delete/{id}',[ProductsController::class,'destroy'])->name('products.destroy');
+
 });
+

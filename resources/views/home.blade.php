@@ -16,14 +16,13 @@
                 <div class="card-body">
                     @if (session('message'))
                         <div class="alert alert-{{session('status')}}" role="alert" id="test">
-                            {{ session('message') }}
+                            <h4>{{ session('message') }}</h4>
                         </div>
                         <script>
                             $('#test').show().delay(100).fadeIn('fast');
-                            $('#test').hide().delay(3000).fadeOut('slow');
+                            $('#test').hide().delay(2000).fadeOut('slow');
                         </script>
                     @endif
-
                     <table class="table table-striped table-hover" id="table_id">
                         <thead>
                         <tr>
@@ -71,7 +70,7 @@
     <script>
         $(document).ready( function () {
             $('#table_id').DataTable({
-                "ordering": false,
+                "ordering": false
             });
         } );
     </script>
