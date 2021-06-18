@@ -2,7 +2,8 @@
  
  Ways to install
 - .env check database configuration
-- php artisan migrate
+- composer install
 - npm install
 - npm run dev
+- php artisan migrate
 - php artisan serve
