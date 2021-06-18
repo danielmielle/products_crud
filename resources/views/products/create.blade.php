@@ -44,7 +44,7 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Quantity') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="quantity" type="text" class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity') }}" required autocomplete="quantity">
+                                    <input id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity') }}" required autocomplete="quantity">
 
                                     @error('quantity')
                                     <span class="invalid-feedback" role="alert">

@@ -15,9 +15,13 @@
                 </div>
                 <div class="card-body">
                     @if (session('message'))
-                        <div class="alert alert-{{session('status')}}" role="alert">
+                        <div class="alert alert-{{session('status')}}" role="alert" id="test">
                             {{ session('message') }}
                         </div>
+                        <script>
+                            $('#test').show().delay(100).fadeIn('fast');
+                            $('#test').hide().delay(3000).fadeOut('slow');
+                        </script>
                     @endif
 
                     <table class="table table-striped table-hover" id="table_id">
