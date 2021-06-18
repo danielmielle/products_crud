@@ -49,7 +49,7 @@ class ProductsController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'description' => 'required',
-            'quantity' => 'required',
+            'quantity' => 'required|max:15',
         ]);
 
         $input = new Product();
