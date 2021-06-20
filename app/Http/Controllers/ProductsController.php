@@ -45,20 +45,21 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-
+        //validation of the inputs
         $this->validate($request,[
             'name' => 'required',
             'description' => 'required',
             'quantity' => 'required|max:15',
         ]);
-
+        //request inputs
         $input = new Product();
         $input->name = $request->input('name');
         $input->description = $request->input('description');
         $input->quantity = $request->input('quantity');
+        //save inputs
         $input->save();
 
-        return redirect()->route('home')->with('message','Stored!')->with('status','success');
+        return redirect()->route('home')->with('message','Product Stored!')->with('status','success');
     }
 
     /**
@@ -80,6 +81,7 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
+        //find the product id
         return view('products.edit',[
             'product' => Product::find($id)
         ]);
@@ -94,13 +96,14 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //request all inputs to update
         $input = $request->all();
         $input['name']= $request['name'];
         $input['description']= $request['description'];
         $input['quantity'] = $request['quantity'];
-
+        //update inputs
         Product::find($id)->update($input);
-        return redirect()->route('home')->with('message','Updated!')->with('status','primary');
+        return redirect()->route('home')->with('message','Product Updated!')->with('status','info');
     }
 
     /**
@@ -111,7 +114,8 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
+        //delete the id
         Product::destroy($id);
-        return redirect()->route('home')->with('message','Deleted!')->with('status','danger');
+        return response()->json(['status' => 'Product Deleted Successfully!']);
     }
 }

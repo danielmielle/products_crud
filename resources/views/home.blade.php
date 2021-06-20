@@ -14,15 +14,24 @@
                         </a>
                 </div>
                 <div class="card-body">
-                    @if (session('message'))
-                        <div class="alert alert-{{session('status')}}" role="alert" id="test">
-                            <h4>{{ session('message') }}</h4>
-                        </div>
+                    {{--@if (session('message'))--}}
+                        {{--<div class="alert alert-{{session('status')}}" role="alert" id="test">--}}
+                            {{--<h4>{{ session('message') }}</h4>--}}
+                        {{--</div>--}}
+                        {{--<script>--}}
+                            {{--$('#test').show().delay(100).fadeIn('fast');--}}
+                            {{--$('#test').hide().delay(2000).fadeOut('slow');--}}
+                        {{--</script>--}}
+                    {{--@endif--}}
+
+                    @if(session('message'))
                         <script>
-                            $('#test').show().delay(100).fadeIn('fast');
-                            $('#test').hide().delay(2000).fadeOut('slow');
+                            swal("{{session('message')}}"," ","{{session('status')}}",{
+                                button:"OK",
+                            })
                         </script>
                     @endif
+
                     <table class="table table-striped table-hover" id="table_id">
                         <thead>
                         <tr>
@@ -36,6 +45,7 @@
                         <tbody>
                             @foreach($products as $product)
                                 <tr>
+                                    <input type="hidden" class="delete_val" value="{{$product->id}}">
                                     <td>{{$product->id}}</td>
                                     <td>{{$product->name}}</td>
                                     <td>{{$product->description}}</td>
@@ -46,15 +56,7 @@
                                             class="btn btn-primary">
                                             Edit
                                         </a>
-                                        <a type="button" class="btn btn-danger"
-                                           onclick="event.preventDefault();
-                                                   document.getElementById('delete-user-form-{{ $product->id }}').submit()">
-                                           Delete
-                                        </a>
-                                        <form id="delete-user-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method("DELETE")
-                                        </form>
+                                        <button type="button" class="btn btn-danger deleteAlert">Delete</button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -74,8 +76,49 @@
             });
         } );
     </script>
-@endsection
-@section('styles')
+    <script>
+        $(document).ready( function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('.deleteAlert').click(function (e){
+                //getting the hidden ID
+                var delete_id = $(this).closest("tr").find('.delete_val').val();
+                //creating sweetalert for delete with confirmation
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this product",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if(willDelete){
 
+                    var data = {
+                        "_token": $('input[name="csrf-token"]').val(),
+                        "id": delete_id,
+                    };
+                    //getting the delete form and delete with response
+                    $.ajax({
+                        type:"DELETE",
+                        url: '/delete/'+delete_id,
+                        data: "data",
+                        success: function (response){
+                            swal(response.status , {
+                                icon: "success",
+                            }).then((result) => {
+                                location.reload();
+                            });
+
+                        }
+                    });
+                }
+            });
+            });
+        });
+    </script>
 @endsection
 @endsection
